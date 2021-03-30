@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8" />
-        <title>Chat</title>
+        <title>Chat - Client</title>
     </head>
     <body>
         <!-- Form to send messages -->
@@ -15,19 +15,19 @@
         <ul id="chat"></ul>
 
         <script type="text/javascript">
+            const FORM_ID = 'msg_form'
+            const CHAT_ID = 'chat'
+            const SOCKET_HOST = 'ws://localhost:8080'
+
             // Manage socket
-            const socket = new WebSocket('ws://localhost:8080');
-            socket.onopen = function(e) {
-                const target = e.target
-                console.log('Connected to ' + target.url);
-            }
-            socket.onmessage = function(e) {
-                const msg = e.data
-                addMessage(msg)
-            }
+            const socket = new WebSocket(SOCKET_HOST);
+            // The socket is open
+            socket.onopen = (e) => console.log('Connected to ' + e.target.url)
+            // The client get a message
+            socket.onmessage = (e) => addMessage(e.data)
 
             // Send message from the form
-            document.getElementById('msg_form').onsubmit = (e) => {
+            document.getElementById(FORM_ID).onsubmit = (e) => {
                 e.preventDefault()
                 const form = e.target
                 const msg = form[0].value
@@ -36,11 +36,14 @@
                 socket.send(msg)
             }
 
-            // Add a message to the chat
+            /**
+             * Add a message to the chat
+             * @param {String} msg The message to add
+             */
             function addMessage(msg){
                 const list_node = document.createElement('LI')
                 list_node.innerText = msg
-                document.getElementById('chat').appendChild(list_node)
+                document.getElementById(CHAT_ID).appendChild(list_node)
             }
         </script>
     </body>
