@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        <title>Chat</title>
+    </head>
+    <body>
+        <!-- Form to send messages -->
+        <form action="#" method="post" id="msg_form">
+            <input type="text" name="msg" placeholder="Type your message here !" />
+            <input type="submit" value="Send" />
+        </form>
+
+        <!-- UL to print messages -->
+        <ul id="chat"></ul>
+
+        <script type="text/javascript">
+            // Manage socket
+            const socket = new WebSocket('ws://localhost:8080');
+            socket.onopen = function(e) {
+                const target = e.target
+                console.log('Connected to ' + target.url);
+            }
+            socket.onmessage = function(e) {
+                const msg = e.data
+                addMessage(msg)
+            }
+
+            // Send message from the form
+            document.getElementById('msg_form').onsubmit = (e) => {
+                e.preventDefault()
+                const form = e.target
+                const msg = form[0].value
+                form[0].value = ''
+                addMessage(msg)
+                socket.send(msg)
+            }
+
+            // Add a message to the chat
+            function addMessage(msg){
+                const list_node = document.createElement('LI')
+                list_node.innerText = msg
+                document.getElementById('chat').appendChild(list_node)
+            }
+        </script>
+    </body>
+</html>
