@@ -25,6 +25,16 @@
             socket.onopen = (e) => console.log('Connected to ' + e.target.url)
             // The client get a message
             socket.onmessage = (e) => addMessage(e.data)
+            // The connection is closing
+            socket.onclose = (e) => {
+                if (e.wasClean) console.log(`Connection closed cleanly, code=${event.code} reason=${event.reason}`)
+                else console.error('Connection die !', e)
+            }
+            // A socket error is occured
+            socket.onerror = (e) => {
+                console.error('An error is occured !', e)
+                alert(`Error : ${error.message}`)
+            }
 
             // Send message from the form
             document.getElementById(FORM_ID).onsubmit = (e) => {
