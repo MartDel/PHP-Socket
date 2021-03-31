@@ -4,7 +4,7 @@ A PHP basic realtime chat using Ratchet and WebSocket.
 
 ## Installation
 
-Clone the repo to your PHP folder : **A PHP server is required**
+Clone the repo :
 ```
 git clone https://github.com/MartDel/PHP-Socket.git
 ```
