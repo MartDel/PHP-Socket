@@ -33,7 +33,7 @@
             // A socket error is occured
             socket.onerror = (e) => {
                 console.error('An error is occured !', e)
-                alert(`Error : ${error.message}`)
+                alert(`Error : ${e.message ? e.message : 'Connexion au socket impossible...'}`)
             }
 
             // Send message from the form
